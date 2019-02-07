@@ -32,6 +32,7 @@ init = () =>{
 	window.addEventListener('resize', resizeCanvas);
 	resizeCanvas();
 
+	Number.prototype.ts = Number.prototype.toString;
 	logLib(lib = {});
 
 	createjs.Sound.on("fileload", SoundLoaded);
@@ -101,6 +102,7 @@ const Cclick = e =>{
 		Y = e.clientY;
 	}
 	exportRoot.sheep.set({x:X, y:Y});
+	exportRoot.sheep.bodys.graphics._fill.style = `#${(220+36*Math.random()|0).ts(16)}${(220+36*Math.random()|0).ts(16)}${(220+36*Math.random()|0).ts(16)}`;
 	ReDraw();
 }
 
