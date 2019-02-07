@@ -44,7 +44,7 @@ const logLib = lib =>{
 		this.initialize(mode,startPosition,loop,{});         
 
 		this.head = new createjs.Shape();
-		this.head.graphics.f('#DB9').s().dc(-80,-30,60).s('#DB9').ss(15,1).mt(-60,-30).lt(-30,-110).mt(-80,-30).lt(-60,-120).mt(-90,-30).cp();
+		this.head.graphics.f('#ECA').s().dc(-80,-30,60).s('#ECA').ss(15,1).mt(-60,-30).lt(-30,-110).mt(-80,-30).lt(-60,-120).mt(-90,-30).cp();
 		this.head.setTransform(0,0);
 
 		this.eye1 = new createjs.Shape();
