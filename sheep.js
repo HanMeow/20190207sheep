@@ -1,29 +1,9 @@
 var init;
 
-//var lib = AdobeAn.compositions['5F9563222A1BEF42BC13F365CB2A987E'].getLibrary(); //函數庫
-
 var canvas, videos, stage, exportRoot, game;
 
 //closure
 (()=>{
-
-//轉換query string
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-//方便取得陣列末值
-if(!Array.prototype.last){
-    Array.prototype.last = function(){
-        return this[this.length - 1];
-    };
-};
 
 let log = console.log,					//shortcut
 	mainWidth = 720,					//RWD寬
@@ -45,8 +25,7 @@ init = () =>{
 	stage.addChild(exportRoot);
 	createjs.Ticker.framerate = 30;
 	
-
-	createjs.Ticker.addEventListener("tick", stageTick);
+	//createjs.Ticker.addEventListener("tick", stageTick);
 
 	canvas.addEventListener('contextmenu', function(e){e.preventDefault();});
 
@@ -55,12 +34,8 @@ init = () =>{
 
 	logLib(lib = {});
 
-	//exportRoot.addChild(new lib.sheep().set({x:360,y:200,scaleY:0.8}));
-
 	createjs.Sound.on("fileload", SoundLoaded);
  	createjs.Sound.registerSound("./sheep-baa.mp3", "baa");
-
-	//loadCards();
 }
 
 const logLib = lib =>{
@@ -69,7 +44,7 @@ const logLib = lib =>{
 		this.initialize(mode,startPosition,loop,{});         
 
 		this.head = new createjs.Shape();
-		this.head.graphics.f('#DAA').s().dc(-80,-30,60).closePath();
+		this.head.graphics.f('#DB9').s().dc(-80,-30,60).s('#DB9').ss(15,1).mt(-60,-30).lt(-30,-110).mt(-80,-30).lt(-60,-120).mt(-90,-30).cp();
 		this.head.setTransform(0,0);
 
 		this.eye1 = new createjs.Shape();
@@ -95,12 +70,27 @@ const logLib = lib =>{
 }
 
 const SoundLoaded = e =>{
+	exportRoot.addChild(
+		exportRoot.tap = new createjs.Text("Tap screeen to baaaa~", "20px", "#FFFFFF").set({
+			x:(document.documentElement.clientWidth || window.innerWidth)/2,
+			y:0,
+			textAlign:"center",
+			scaleX:5,
+			scaleY:5
+		})
+	);
+	ReDraw();
+	exportRoot.addChild(exportRoot.sheep = new lib.sheep().set({x:0, y:-300, scaleX:0.5, scaleY:0.4}) );
 	canvas.addEventListener('contextmenu', Cclick);
 	canvas.addEventListener('click', Cclick);
 }
 
 const Cclick = e =>{
 	e.preventDefault();
+	if(exportRoot.tap.visible){
+		exportRoot.tap.visible = !1;
+		stage.clear();
+	}
 	let instance = createjs.Sound.play("baa",{ loop: 0, volume: 1, offset: 0 }),
 		X,Y;
 	if(e.changedTouches && e.changedTouches["0"] ){
@@ -110,21 +100,20 @@ const Cclick = e =>{
 		X = e.clientX;
 		Y = e.clientY;
 	}
-	exportRoot.addChild(new lib.sheep().set({x:X, y:Y, scaleX:0.5, scaleY:0.4}));
+	exportRoot.sheep.set({x:X, y:Y});
+	ReDraw();
 }
 
 //Tick函數
 const stageTick = e =>{
-	if(status == 'set'){
-
-	}
-	stage.update();
+	//stage.update();
+	stage.draw(canvas.getContext("2d"), false);
 }
 
 //重繪
 const ReDraw = () =>{
 	if(null!=stage && null!=canvas){
-		stage.clear();
+		//stage.clear();
 		stage.draw(canvas.getContext("2d"), false);
 	}
 }
