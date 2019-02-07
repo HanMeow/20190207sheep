@@ -97,8 +97,16 @@ const SoundLoaded = e =>{
 
 const Cclick = e =>{
 	e.preventDefault();
-	let instance = createjs.Sound.play("baa",{ loop: 0, volume: 1, offset: 0 });
-	exportRoot.addChild(new lib.sheep().set({x:Math.random()*mainWidth, y:Math.random()*mainHeight, scaleY:0.8}));
+	let instance = createjs.Sound.play("baa",{ loop: 0, volume: 1, offset: 0 }),
+		X,Y;
+	if(e.changedTouches && e.changedTouches["0"] ){
+		X = e.changedTouches["0"].clientX;
+		Y = e.changedTouches["0"].clientY;
+	}else{
+		X = e.clientX;
+		Y = e.clientY;
+	}
+	exportRoot.addChild(new lib.sheep().set({x:X, y:Y, scaleX:0.5, scaleY:0.4}));
 }
 
 //Tick函數
@@ -129,30 +137,9 @@ resizeCanvas = function(){
 	canvas.style.width = w + "px";
 	canvas.style.height = h + "px";
 
-	if(h<mainHeight){
-		w *= mainHeight/h;
-		h *= mainHeight/h;
-	}
-	if(w<mainWidth){
-		h *= mainWidth/w;
-		w *= mainWidth/w;
-	}
-
 	//畫布像素
 	canvas.width = w;
 	canvas.height = h;
-
-	rt.x = rt.y = 0;
-	if( w > h*mainWHRatio ){
-		rt.scaleY = h/mainHeight;
-		rt.scaleX = rt.scaleY;
-		rt.x = (w - rt.scaleX*mainWidth)/2;
-
-	}else{
-		rt.scaleX = w/mainWidth;
-		rt.scaleY = rt.scaleX;
-		rt.y = (h - rt.scaleY*mainHeight)/2;
-	}
 
 	//重繪主要畫布
 	ReDraw();
