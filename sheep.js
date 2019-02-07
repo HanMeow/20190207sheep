@@ -69,22 +69,26 @@ const logLib = lib =>{
 		this.initialize(mode,startPosition,loop,{});         
 
 		this.head = new createjs.Shape();
-		this.head.graphics.f('#DAA').s().dc(-80,-50,60).closePath();
+		this.head.graphics.f('#DAA').s().dc(-80,-30,60).closePath();
 		this.head.setTransform(0,0);
 
 		this.eye1 = new createjs.Shape();
-		this.eye1.graphics.f('#000').s().dc(-95,-60,10).closePath();
+		this.eye1.graphics.f('#000').s().dc(-95,-40,10).cp();
 		this.eye1.setTransform(0,0);
 
 		this.eye2 = new createjs.Shape();
-		this.eye2.graphics.f('#000').s().dc(-135,-60,10).closePath();
+		this.eye2.graphics.f('#000').s().dc(-135,-40,10).cp();
 		this.eye2.setTransform(0,0);
 
 		this.bodys = new createjs.Shape();
-		this.bodys.graphics.f('#EEE').s().dc(0,0,90).closePath();
+		this.bodys.graphics.f('#EEE').s().dc(0,0,90).cp();
 		this.bodys.setTransform(0,0);
 
-		this.timeline.addTween(createjs.Tween.get({}).to({state:[{t:this.head},{t:this.bodys},{t:this.eye1},{t:this.eye2}]}).wait(1));
+		this.foot = new createjs.Shape();
+		this.foot.graphics.f().s('#000').ss(3).mt(-30,0).lt(-30,120).mt(-10,0).lt(-10,120).mt(10,0).lt(10,120).mt(30,0).lt(30,120).cp();
+		this.foot.setTransform(0,0);
+
+		this.timeline.addTween(createjs.Tween.get({}).to({state:[{t:this.foot},{t:this.bodys},{t:this.head},{t:this.eye1},{t:this.eye2}]}).wait(1));
 
 	}).prototype = p = new createjs.MovieClip();
 	p.nominalBounds = new createjs.Rectangle(0,0,1280,720);
